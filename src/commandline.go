@@ -1,6 +1,22 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+func check_flags() {
+	if flagops.randomnoise {
+		randomnoisegen()
+	}
+
+	if flagops.inputfile == "" {
+		fmt.Println("WARNING: Input image path is unselected, to select file add -input='yourfile.jpg' at the end of the command")
+		os.Exit(0)
+	}
+
+}
 
 func set_flags() {
 	flag.StringVar(&flagops.inputfile, "input", "", "Path to the input file")
@@ -12,4 +28,5 @@ func set_flags() {
 	flag.IntVar(&flagops.outputimagedim.Height, "outputheight", 720, "Height of the output image in pixels")
 	flag.IntVar(&flagops.outputimagedim.Width, "outputwidth", 1260, "Width of the output image in pixels") // random noise generation dimensions set it
 	flag.Parse()
+	check_flags()
 }

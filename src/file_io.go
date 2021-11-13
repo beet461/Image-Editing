@@ -2,6 +2,7 @@ package main
 
 import (
 	"image"
+	"image/draw"
 	"image/jpeg"
 	"image/png"
 	"os"
@@ -18,7 +19,7 @@ func encodeOutput(nImg image.Image, ftype string) {
 	}
 }
 
-func decodeInput() (image.Image, string) {
+func decodeInput() (image.Image, string, *image.RGBA) {
 	fImg, err := os.Open(flagops.inputfile)
 	errorCheck(err, "opening")
 	defer fImg.Close()
@@ -37,5 +38,9 @@ func decodeInput() (image.Image, string) {
 	errorCheck(err, "decode")
 	fImg.Seek(0, 0)
 
-	return img, ftype
+	nImg := image.NewRGBA(img.Bounds())
+	// Copy the image pixels into nImg
+	draw.Draw(nImg, img.Bounds(), img, img.Bounds().Min, draw.Src)
+
+	return img, ftype, nImg
 }

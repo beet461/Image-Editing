@@ -6,6 +6,16 @@ import (
 	"os"
 )
 
+func transform() {
+	if flagops.inverting {
+		invert()
+	}
+
+	if flagops.grayscaling {
+		gray()
+	}
+}
+
 func gray() {
 	for i := 0; i < len(pixels); i += 4 {
 		avg := uint8(float32(pixels[i])*0.3) + uint8(float32(pixels[i+1])*0.59) + uint8(float32(pixels[i+2])*0.11)

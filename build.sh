@@ -1,1 +1,1 @@
-go build src/*.go 
+go build -o ./main src/*.go
